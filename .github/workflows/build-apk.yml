@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source code
+      - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Set up Java 8
@@ -18,14 +18,14 @@ jobs:
           distribution: temurin
           java-version: '8'
 
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses || true
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
 
-      - name: Install Android SDK components
+      - name: Install required SDK components
         run: sdkmanager "platforms;android-32" "build-tools;30.0.3"
 
       - name: Make Gradle executable
-        run: chmod +x gradlew
+        run: chmod +x ./gradlew
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
