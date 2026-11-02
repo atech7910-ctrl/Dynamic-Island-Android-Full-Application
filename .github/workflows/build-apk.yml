@@ -17,7 +17,7 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Set up Java 17 for Android SDK
         uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -29,6 +29,12 @@ jobs:
       - name: Install Android SDK components
         run: |
           sdkmanager "platforms;android-32" "build-tools;30.0.3"
+
+      - name: Switch to Java 11 for Gradle
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '11'
 
       - name: Make Gradle executable
         run: chmod +x ./gradlew
@@ -42,4 +48,3 @@ jobs:
           name: Dynamic-Island-APK
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-
